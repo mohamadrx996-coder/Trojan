@@ -68,10 +68,12 @@ canvas {
   color: black;
 }
 
-.viewers {
-  margin-top: 15px;
-  font-size: 16px;
-  color: #99ff99;
+/* تنسيق عداد الزوار الجديد */
+.viewer-section {
+  margin-top: 35px; /* مسافة بينه وبين الأزرار */
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: 1px;
 }
 
 /* RIGHT BOX */
@@ -160,8 +162,8 @@ canvas {
       <a href="https://www.youtube.com/@Trojan1888" target="_blank">YouTube</a>
     </div>
 
-    <div class="viewers">
-      Viewer: <span id="viewer-count">0</span>
+    <div class="viewer-section">
+      Viewer: <span id="visit-count">0</span>
     </div>
   </div>
 
@@ -172,42 +174,8 @@ canvas {
 
 </div>
 
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <script>
-const firebaseConfig = {
-  apiKey: "ضع_هنا_API_KEY",
-  authDomain: "ضع_هنا_PROJECT_ID.firebaseapp.com",
-  databaseURL: "https://ضع_هنا_PROJECT_ID.firebaseio.com",
-  projectId: "ضع_هنا_PROJECT_ID",
-  storageBucket: "ضع_هنا_PROJECT_ID.appspot.com",
-  messagingSenderId: "ضع_هنا_MESSAGING_ID",
-  appId: "ضع_هنا_APP_ID"
-};
-
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
-
-// إضافة زائر عند فتح الصفحة
-const viewerRef = db.ref('viewers');
-const visitorId = Date.now() + "-" + Math.random();
-viewerRef.child(visitorId).set(true);
-
-// إزالة الزائر عند مغادرة الصفحة
-window.addEventListener('beforeunload', () => {
-  viewerRef.child(visitorId).remove();
-});
-
-// تحديث العدد مباشرة عند أي تغيير
-viewerRef.on('value', snapshot => {
-  const count = snapshot.numChildren();
-  document.getElementById('viewer-count').textContent = count;
-});
-</script>
-
-<script>
-// ماتريكس الخلفية
+// كود الماتريكس
 const canvas = document.getElementById("matrix");
 const ctx = canvas.getContext("2d");
 
@@ -240,6 +208,21 @@ function draw() {
 }
 
 setInterval(draw, 33);
+
+// كود عداد الزوار الحقيقي (يستخدم API مجاني)
+async function getVisits() {
+  try {
+    // استخدمنا مساحة فريدة لاسمك (trojan-profile-1888) لكي لا يتداخل مع مواقع أخرى
+    const response = await fetch('https://api.counterapi.dev/v1/trojan-profile-1888/visits/up');
+    const data = await response.json();
+    document.getElementById('visit-count').innerText = data.count;
+  } catch (error) {
+    console.error("خطأ في جلب عدد الزوار:", error);
+    document.getElementById('visit-count').innerText = "Err";
+  }
+}
+
+getVisits();
 </script>
 
 </body>
