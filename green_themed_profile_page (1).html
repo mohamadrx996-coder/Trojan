@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trojan Hacker UI</title>
+
+<style>
+body {
+  margin: 0;
+  background: black;
+  color: #00ff00;
+  font-family: monospace;
+  overflow: hidden;
+}
+
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  opacity: 0.25;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100vh;
+  width: 80%;
+  margin: auto;
+}
+
+.left h1 {
+  font-size: 40px;
+  margin: 0;
+}
+
+.left h2 {
+  font-size: 18px;
+  color: #66ff66;
+}
+
+.left p {
+  color: #99ff99;
+}
+
+.info {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.links a {
+  display: inline-block;
+  margin-top: 15px;
+  margin-right: 10px;
+  padding: 8px 18px;
+  border: 1px solid #00ff00;
+  color: #00ff00;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.links a:hover {
+  background: #00ff00;
+  color: black;
+}
+
+/* RIGHT BOX */
+.right {
+  border: 2px solid #00ff00;
+  padding: 70px;
+  text-align: center;
+  box-shadow: 0 0 25px #00ff00, inset 0 0 15px #00ff00;
+  border-radius: 0;
+  transform: rotate(-6deg);
+}
+
+.right h1 {
+  font-size: 70px;
+  margin: 0;
+  text-shadow: 0 0 15px #00ff00;
+}
+
+.right p {
+  font-size: 20px;
+  color: #66ff66;
+}
+
+/* CORNERS */
+.corner {
+  position: fixed;
+  width: 80px;
+  height: 80px;
+}
+
+.top-right {
+  top: 15px;
+  right: 15px;
+  border-top: 3px solid #00ff00;
+  border-right: 3px solid #00ff00;
+}
+
+.bottom-left {
+  bottom: 15px;
+  left: 15px;
+  border-bottom: 3px solid #00ff00;
+  border-left: 3px solid #00ff00;
+}
+
+/* LINES */
+.line {
+  position: fixed;
+  background: #00ff00;
+  opacity: 0.3;
+}
+
+.line1 {
+  width: 2px;
+  height: 120px;
+  top: 50px;
+  right: 50px;
+}
+
+.line2 {
+  height: 2px;
+  width: 120px;
+  bottom: 50px;
+  left: 50px;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="matrix"></canvas>
+<div class="corner top-right"></div>
+<div class="corner bottom-left"></div>
+<div class="line line1"></div>
+<div class="line line2"></div>
+
+<div class="container">
+
+  <div class="left">
+    <h1>Trojan Profile</h1>
+    <h2>Discord: 1888.cmd</h2>
+    <p>Cyber Security | Developer</p>
+    <div class="info">Owner Group .#1888</div>
+
+    <div class="links">
+      <a href="https://discord.gg/MpwvCypA66" target="_blank">Discord</a>
+      <a href="https://www.youtube.com/@Trojan1888" target="_blank">YouTube</a>
+    </div>
+  </div>
+
+  <div class="right">
+    <h1>TROJAN</h1>
+    <p>.#1888</p>
+  </div>
+
+</div>
+
+<script>
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const letters = "01";
+const fontSize = 14;
+const columns = Math.floor(canvas.width / fontSize);
+
+const drops = [];
+for (let i = 0; i < columns; i++) drops[i] = 1;
+
+function draw() {
+  ctx.fillStyle = "rgba(0,0,0,0.05)";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = "#00ff00";
+  ctx.font = fontSize + "px monospace";
+
+  for (let i = 0; i < drops.length; i++) {
+    const text = letters[Math.floor(Math.random() * letters.length)];
+    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+      drops[i] = 0;
+    }
+    drops[i]++;
+  }
+}
+
+setInterval(draw, 33);
+</script>
+
+</body>
+</html>
