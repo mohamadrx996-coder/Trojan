@@ -68,6 +68,12 @@ canvas {
   color: black;
 }
 
+.viewers {
+  margin-top: 15px;
+  font-size: 16px;
+  color: #99ff99;
+}
+
 /* RIGHT BOX */
 .right {
   border: 2px solid #00ff00;
@@ -153,6 +159,10 @@ canvas {
       <a href="https://discord.gg/MpwvCypA66" target="_blank">Discord</a>
       <a href="https://www.youtube.com/@Trojan1888" target="_blank">YouTube</a>
     </div>
+
+    <div class="viewers">
+      عدد المشاهدين: <span id="viewer-count">0</span>
+    </div>
   </div>
 
   <div class="right">
@@ -162,7 +172,42 @@ canvas {
 
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <script>
+const firebaseConfig = {
+  apiKey: "ضع_هنا_API_KEY",
+  authDomain: "ضع_هنا_PROJECT_ID.firebaseapp.com",
+  databaseURL: "https://ضع_هنا_PROJECT_ID.firebaseio.com",
+  projectId: "ضع_هنا_PROJECT_ID",
+  storageBucket: "ضع_هنا_PROJECT_ID.appspot.com",
+  messagingSenderId: "ضع_هنا_MESSAGING_ID",
+  appId: "ضع_هنا_APP_ID"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+// إضافة زائر عند فتح الصفحة
+const viewerRef = db.ref('viewers');
+const visitorId = Date.now() + "-" + Math.random();
+viewerRef.child(visitorId).set(true);
+
+// إزالة الزائر عند مغادرة الصفحة
+window.addEventListener('beforeunload', () => {
+  viewerRef.child(visitorId).remove();
+});
+
+// تحديث العدد مباشرة عند أي تغيير
+viewerRef.on('value', snapshot => {
+  const count = snapshot.numChildren();
+  document.getElementById('viewer-count').textContent = count;
+});
+</script>
+
+<script>
+// ماتريكس الخلفية
 const canvas = document.getElementById("matrix");
 const ctx = canvas.getContext("2d");
 
